@@ -1,1 +1,1 @@
-# LogoBluetooth
+# Bluetooth Extension Sensor App
