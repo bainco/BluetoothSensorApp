@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mRecyclerViewAdapter;
     private ProgressBar mProgressBar;
-    private AlertDialog mAlert;
+    private AlertDialog mConnectionSuccessAlert;
+    private AlertDialog mConnectionDroppedAlert;
 
     private static final int CONNECTION_ESTABLISHED = 100;
     private static final int CONNECTION_DROPPED = 101;
@@ -64,13 +65,12 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == CONNECTION_ESTABLISHED) {
-                mAlert.show();
+                mConnectionSuccessAlert.show();
             }
             if (msg.what == CONNECTION_DROPPED) {
                 mSendDataThread = null;
                 if (mStopServerBtn.isEnabled()) {
-                    Toast toast = setupToast("Connection was dropped!");
-                    toast.show();
+                    mConnectionDroppedAlert.show();
                     switchEnabled();
                 }
             }
@@ -95,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
         mProgressBar.setVisibility(View.INVISIBLE);
 
         setupToolbar();
-        setupAlertBuilder();
+        setupConnectionSuccessAlert();
+        setupConnectionDropAlert();
         setupSensors();
         setupButtons();
         setupRecyclerView();
@@ -207,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setupAlertBuilder() {
+    private void setupConnectionSuccessAlert() {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
         mBuilder.setMessage("Connection successful!");
         mBuilder.setPositiveButton("Ok", (dialog, id) -> {
@@ -220,7 +221,16 @@ public class MainActivity extends AppCompatActivity {
                 mConnectionHandler.sendEmptyMessage(CONNECTION_DROPPED);
             }
         });
-        mAlert = mBuilder.create();
+        mConnectionSuccessAlert = mBuilder.create();
+    }
+
+    private void setupConnectionDropAlert() {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        mBuilder.setMessage("Connection was dropped!");
+        mBuilder.setPositiveButton("Ok", (dialog, id) -> {
+
+        });
+        mConnectionDroppedAlert = mBuilder.create();
     }
 
     private void switchEnabled() {

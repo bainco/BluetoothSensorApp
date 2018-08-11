@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LogoBluetooth</string>
+    <string name="app_name">NetLogo Bluetooth</string>
     <string name="start_server">Start Server</string>
     <string name="stop_server">Stop Server</string>
 </resources>
