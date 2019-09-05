@@ -11,8 +11,4 @@
         android:title="Turn off Sensors"
         android:orderInCategory="99"
         app:showAsAction="never"/>
-    <item android:id="@+id/action_feedback"
-        android:title="Feedback"
-        android:orderInCategory="100"
-        app:showAsAction="never"/>
 </menu>

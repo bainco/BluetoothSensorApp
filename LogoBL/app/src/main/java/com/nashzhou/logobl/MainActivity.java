@@ -25,9 +25,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.FeedbackManager;
-import net.hockeyapp.android.UpdateManager;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -101,9 +101,12 @@ public class MainActivity extends AppCompatActivity {
         setupButtons();
         setupRecyclerView();
 
-        // HockeyApp
-        FeedbackManager.register(this);
-        checkForUpdates();
+        // App Center
+        String appSecret = BuildConfig.ApiKey;
+        if (appSecret != null && !appSecret.isEmpty()) {
+            AppCenter.start(getApplication(), appSecret,
+                    Analytics.class, Crashes.class);
+        }
     }
 
     @Override
@@ -111,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mSensorManager.unregisterListener(SensorData.SensorDataEventListener.getInstance());
-        unregisterManagers();
     }
 
     @Override
@@ -119,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         registerSensors();
-        checkForCrashes();
     }
 
     @Override
@@ -129,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
         mSensorManager.unregisterListener(SensorData.SensorDataEventListener.getInstance());
         closeSocket();
         closeServerSocket();
-        unregisterManagers();
     }
 
     @Override
@@ -152,9 +152,6 @@ public class MainActivity extends AppCompatActivity {
                 if (mRecyclerViewAdapter != null) {
                     mRecyclerViewAdapter.changeSensors(false);
                 }
-                break;
-            case R.id.action_feedback:
-                FeedbackManager.showFeedbackActivity(this);
                 break;
         }
 
@@ -380,19 +377,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    // MARK: HockeyApp
-    private void checkForCrashes() {
-        CrashManager.register(this);
-    }
-
-    private void checkForUpdates() {
-        // Remove this for store builds!
-        UpdateManager.register(this);
-    }
-
-    private void unregisterManagers() {
-        UpdateManager.unregister();
     }
 }
