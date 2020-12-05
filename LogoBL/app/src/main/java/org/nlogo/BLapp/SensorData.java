@@ -1,4 +1,4 @@
-package com.nashzhou.logobl;
+package org.nlogo.BLapp;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

@@ -1,4 +1,4 @@
-package com.nashzhou.logobl;
+package org.nlogo.BLapp;
 
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -25,9 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.microsoft.appcenter.AppCenter;
-import com.microsoft.appcenter.analytics.Analytics;
-import com.microsoft.appcenter.crashes.Crashes;
+import org.nlogoBLapp.R;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -101,12 +99,6 @@ public class MainActivity extends AppCompatActivity {
         setupButtons();
         setupRecyclerView();
 
-        // App Center
-        String appSecret = BuildConfig.ApiKey;
-        if (appSecret != null && !appSecret.isEmpty()) {
-            AppCenter.start(getApplication(), appSecret,
-                    Analytics.class, Crashes.class);
-        }
     }
 
     @Override

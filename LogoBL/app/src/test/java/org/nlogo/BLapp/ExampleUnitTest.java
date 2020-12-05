@@ -1,4 +1,4 @@
-package com.nashzhou.logobl;
+package org.nlogo.BLapp;
 
 import org.junit.Test;
 
